@@ -9,8 +9,9 @@ module.exports = {
   ],
   theme: {
     colors: {
-      header_dark: "#131921",
-      ['az-orenge']: "#F08804",
+      ['az_header_dark']: "#131921",
+      ['az_orange']: "#F08804",
+      ['az_gray_light']:"#37475A",
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
