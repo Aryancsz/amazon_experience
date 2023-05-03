@@ -12,6 +12,7 @@ import { ISelectOptions } from "@/pages";
 
 interface IHeaderProps {
   userName: string;
+  loading: boolean;
   cartQuantity: number;
   searchValue: string;
   setSelectedOption: Dispatch<SetStateAction<ISelectOptions>>;
@@ -20,6 +21,7 @@ interface IHeaderProps {
 
 const Header: FunctionComponent<IHeaderProps> = ({
   userName,
+  loading,
   cartQuantity,
   setSelectedOption,
   searchValue,
@@ -32,10 +34,10 @@ const Header: FunctionComponent<IHeaderProps> = ({
       setSearchValue(e.currentTarget.value);
     }
   };
-  const searchInputReference = useRef() as RefObject<HTMLInputElement> 
+  const searchInputReference = useRef() as RefObject<HTMLInputElement>;
 
   return (
-    <header className='bg-header_dark text-white'>
+    <header className='bg-az_header_dark text-white'>
       <div className='flex justify-between items-center'>
         <div className='mx-5 text-white flex'>
           <Image
@@ -58,11 +60,12 @@ const Header: FunctionComponent<IHeaderProps> = ({
           <select
             name='category'
             className='border text-black border-gray-700 rounded py-2 px-4 focus:outline-none focus:border-blue-500'
-            onChange={(e) =>
+            onChange={(e) => {
+              setSearchValue("");
               setSelectedOption(
                 e.currentTarget.value.toLowerCase() as ISelectOptions
-              )
-            }
+              );
+            }}
           >
             {categories.map((cat) => {
               return (
@@ -72,14 +75,18 @@ const Header: FunctionComponent<IHeaderProps> = ({
               );
             })}
           </select>
-          <div className='relative mr-4 w-full'>
+          <div
+            className={`relative mr-4 w-full ${
+              loading && "opacity-90 pointer-events-none"
+            }`}
+          >
             <input
               ref={searchInputReference}
               type='text'
               name='text'
               onKeyUp={handleKeywordKeyPress}
               placeholder='Search Amazon'
-              className=' text-black block w-full border-2 border-gray-700 rounded py-2 pl-2 pr-4 focus:outline-none focus:border-blue-500'
+              className={`text-black block w-full border-2 border-gray-700 rounded py-2 pl-2 pr-4 focus:outline-none focus:border-blue-500 `}
             />
             <div
               className='absolute top-0 right-0 mt-2 mr-2 hover:opacity-75 hover:transform hover:scale-105 z-50 cursor-pointer'
@@ -112,7 +119,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
             <p className='font-bold'>& Orders</p>
           </div>
           <div className='flex flex-col justify-center items-center '>
-            <div className='text-sm font-black text-az-orenge rounded-full'>
+            <div className='text-sm font-black text-az_orange rounded-full'>
               {cartQuantity}
             </div>
             <p className='font-bold'>Cart</p>

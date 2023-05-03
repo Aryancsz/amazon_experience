@@ -5,7 +5,7 @@ const stars = (rate: number) => {
   for (let v = 1; v <= 5; v++) {
     if (v <= rate) {
       starSpans.push(
-        <span key={v} className='star text-3xl text-az-orenge'>
+        <span key={v} className='star text-3xl text-az_orange'>
           ★
         </span>
       );
