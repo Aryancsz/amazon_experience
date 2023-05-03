@@ -24,3 +24,12 @@ export const listProducts = async ({
   const response = await axios.get(url);
   return response.data as IProductsResponse;
 };
+
+interface IGetProductDetails {
+  productId: string | string[] | undefined;
+}
+export const getProductDetails = async ({ productId }: IGetProductDetails) => {
+  const url = `https://dummyjson.com/products/${productId}`
+  const response = await axios.get(url);
+  return response.data;
+};
