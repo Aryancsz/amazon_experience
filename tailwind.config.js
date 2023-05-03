@@ -8,6 +8,17 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      header_dark: "#131921",
+      ['az-orenge']: "#F08804",
+      black: colors.black,
+      white: colors.white,
+      gray: colors.gray,
+      emerald: colors.emerald,
+      indigo: colors.indigo,
+      yellow: colors.yellow,
+      red: colors.red
+    },
     extend: {
     },
   },
