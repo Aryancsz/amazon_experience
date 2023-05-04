@@ -1,4 +1,4 @@
-import { IProducts } from "@/rtk/amazon.slice";
+import { IProducts } from '@/rtk/products.slice';
 import axios from "axios";
 
 export interface IProductsResponse {

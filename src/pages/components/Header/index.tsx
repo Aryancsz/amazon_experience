@@ -3,30 +3,31 @@ import React, {
   Dispatch,
   FunctionComponent,
   SetStateAction,
-  LegacyRef,
   RefObject,
 } from "react";
 import Image from "next/image";
 import { MagnifyingGlassIcon, MapPinIcon } from "@heroicons/react/24/outline";
-import { ISelectOptions } from "@/pages";
+import { ISelectOptions } from "@/pages/_app";
+import { useAppSelector } from "@/rtk/store";
+import { cartQuantityCalculator } from "@/utils";
 
 interface IHeaderProps {
   userName: string;
   loading: boolean;
-  cartQuantity: number;
-  searchValue: string;
   setSelectedOption: Dispatch<SetStateAction<ISelectOptions>>;
   setSearchValue: Dispatch<SetStateAction<string>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 const Header: FunctionComponent<IHeaderProps> = ({
   userName,
   loading,
-  cartQuantity,
   setSelectedOption,
-  searchValue,
   setSearchValue,
+  setCurrentPage,
 }) => {
+  const { cart } = useAppSelector((state) => state.cartProducts);
+
   const categories = ["All", "Sunglasses", "Furniture", "Motorcycle"];
 
   const handleKeywordKeyPress = (e: React.KeyboardEvent<any>) => {
@@ -62,6 +63,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
             className='border text-black border-gray-700 rounded py-2 px-4 focus:outline-none focus:border-blue-500'
             onChange={(e) => {
               setSearchValue("");
+              setCurrentPage(1);
               setSelectedOption(
                 e.currentTarget.value.toLowerCase() as ISelectOptions
               );
@@ -120,7 +122,7 @@ const Header: FunctionComponent<IHeaderProps> = ({
           </div>
           <div className='flex flex-col justify-center items-center '>
             <div className='text-sm font-black text-az_orange rounded-full'>
-              {cartQuantity}
+              {cartQuantityCalculator(cart)}
             </div>
             <p className='font-bold'>Cart</p>
           </div>

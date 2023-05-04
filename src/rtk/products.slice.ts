@@ -1,5 +1,5 @@
-import { IProductsResponse } from '@/pages/api/amazonApi';
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IProductsResponse } from "@/services/amazonApi";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface IProducts {
   id: number;
@@ -14,7 +14,6 @@ export interface IProducts {
   thumbnail: string;
   images: string[];
 }
-
 
 const initialState: IProductsResponse = {
   products: [],
