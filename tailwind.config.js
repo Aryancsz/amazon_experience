@@ -12,6 +12,8 @@ module.exports = {
       ['az_header_dark']: "#131921",
       ['az_orange']: "#F08804",
       ['az_gray_light']:"#37475A",
+      ['az_add_to_cart']:"#FFD814",
+      ['az_buy_now']:"#ffa41c",
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
