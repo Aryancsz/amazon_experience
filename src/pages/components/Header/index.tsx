@@ -10,6 +10,7 @@ import { MagnifyingGlassIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import { ISelectOptions } from "@/pages/_app";
 import { useAppSelector } from "@/rtk/store";
 import { cartQuantityCalculator } from "@/utils";
+import Link from 'next/link';
 
 interface IHeaderProps {
   userName: string;
@@ -120,12 +121,14 @@ const Header: FunctionComponent<IHeaderProps> = ({
             <p className='text-sm'>Returns</p>
             <p className='font-bold'>& Orders</p>
           </div>
-          <div className='flex flex-col justify-center items-center '>
+          <Link href={`/cart`}>
+          <div className='flex flex-col justify-center items-center cursor-pointer'>
             <div className='text-sm font-black text-az_orange rounded-full'>
               {cartQuantityCalculator(cart)}
             </div>
             <p className='font-bold'>Cart</p>
           </div>
+          </Link>
         </div>
       </div>
     </header>

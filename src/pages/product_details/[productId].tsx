@@ -53,7 +53,13 @@ const ProductDetails: React.FC<IProductDetailsProps> = () => {
   const ratingFloat = `${productDetails?.rating}`.split(".")[1];
 
   const handleAddToCart = (e: React.MouseEvent<HTMLDivElement>) => {
-    dispatch(addToCart({ ...productDetails, quantity }));
+    dispatch(
+      addToCart({
+        ...productDetails,
+        quantity,
+        thumbnail: productDetails?.images[0] as any,
+      })
+    );
   };
 
   return (
