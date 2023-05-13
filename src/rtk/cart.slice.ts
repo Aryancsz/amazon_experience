@@ -1,15 +1,15 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-
+import { findIndex } from "lodash";
 export interface ICartProducts {
   id: number;
-  title?: string;
-  description?: string;
-  price?: number;
-  discountPercentage?: number;
-  stock?: number;
-  brand?: string;
-  category?: string;
-  thumbnail?: string;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
   quantity: number;
 }
 
@@ -32,15 +32,23 @@ const cartSlice = createSlice({
         currentCartState.length > 0 &&
         currentCartState.some((item) => item.id === action.payload.id)
       ) {
-        const newArr = currentCartState.filter(product=> product.id !== action.payload.id)
-        newArr.push(action.payload)
-        return { ...state, cart: [...newArr] };
+        let result = currentCartState.map((item) =>
+          item.id === action.payload.id ? action.payload : item
+        );
+        return { ...state, cart: [...result] };
       } else {
         return { ...state, cart: [...state.cart, action.payload] };
       }
     },
+    deleteAnItem(state, action) {
+      const currentCartState = current(state.cart)
+      const result = currentCartState.filter(
+        (item) => item.id !== action.payload.id
+      );
+      return { ...state, cart: [...result] };
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, deleteAnItem } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,25 +1,35 @@
 import { useAppSelector } from "@/rtk/store";
-import { FaceFrownIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, FaceFrownIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import Image from "next/image";
 import { ICartProducts } from "@/rtk/cart.slice";
 import { dollarToINDIAN } from "@/utils";
+import CartListCard from "../components/CartListCard";
 
 interface ICartProps {}
 
 const Cart: React.FC<ICartProps> = () => {
   const cartItems = useAppSelector((state) => state.cartProducts);
 
+  const items = cartItems.cart.slice().reverse();
+
+  const calculateTotalCost = (items: ICartProducts[]) => {
+    return items.reduce((acc, item) => {
+      acc = acc + item.quantity * item.price;
+      return acc;
+    }, 0);
+  };
+
   return (
     <div className='w-[100vw] bg-gray-300 flex justify-center'>
       <div className='w-[75vw] bg-white p-3 mx-3 my-10 h-[60vh]'>
         <div>
-          {cartItems.cart.length > 0 ? (
+          {items.length > 0 ? (
             <h1 className='text-3xl font-medium'>Shopping Cart</h1>
           ) : (
             <h1 className='text-3xl font-medium'>Your Amazon Cart is empty.</h1>
           )}
-          {cartItems.cart.length > 0 ? (
+          {items.length > 0 ? (
             <p className='text-indigo-500 text-sm'>Selected items</p>
           ) : (
             <p className='text-gray-700 mt-1 text-sm w-2/3'>
@@ -35,37 +45,10 @@ const Cart: React.FC<ICartProps> = () => {
             <span className='text-gray-600 text-sm'>Price</span>
           </div>
           <hr className='mb-3' />
-          {cartItems.cart.length > 0 ? (
-            <div>
-              {cartItems.cart.map((item: ICartProducts) => {
-                return (
-                  <div key={item.id}>
-                    <div className='flex space-x-7 mt-2'>
-                      <div className='relative h-[12rem] w-[17rem]'>
-                        <Image
-                          src={item.thumbnail as string}
-                          alt='india'
-                          fill
-                        />
-                      </div>
-                      <div className='flex w-full justify-between'>
-                        <div>
-                          <p className='text-lg font-medium'>
-                            {item.description}
-                          </p>
-                        </div>
-                        <p className='relative text-lg font-semibold pl-0.5'>
-                          <span className='absolute top-0 -left-2 transform text-base font-normal scale-x-75'>
-                            ₹
-                          </span>{" "}
-                          {(
-                            dollarToINDIAN(item.price || 0) * item.quantity
-                          ).toLocaleString("en-IN")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                );
+          {items.length > 0 ? (
+            <div className='overflow-y-auto h-[45vh] pr-2'>
+              {items.map((item: ICartProducts) => {
+                return <CartListCard key={item.id} item={item} />;
               })}
             </div>
           ) : (
@@ -75,7 +58,25 @@ const Cart: React.FC<ICartProps> = () => {
           )}
         </div>
       </div>
-      <div className='w-[20vw] bg-white p-3 mx-3 my-10 h-[60vh]'></div>
+      <div className='w-[20vw] bg-white p-7 mx-3 my-10 h-[30vh]'>
+        <div className='text-lg mb-1 flex'>
+          Subtotal &#40;{items.length} item &#41; :{" "}
+          <p className='font-bold ml-2'>{dollarToINDIAN(calculateTotalCost(items)).toLocaleString("en-IN")}</p>
+        </div>
+        <div className='flex space-x-2 items-center text-sm'>
+          <input type='checkbox' className='h-3 w-3 cursor-pointer' />
+          <p>This order contains a gift</p>
+        </div>
+        <div className='h-full flex flex-col space-y-7 justify-center items-center'>
+          <p className='bg-az_add_to_cart py-2 px-2.5 w-full text-center rounded-md cursor-pointer hover:bg-az_buy_now'>
+            Proceed to Buy
+          </p>
+          <div className='flex justify-between w-full py-2 px-3 space-x-2 border border-gray-600 rounded-sm cursor-pointer'>
+            <p>EMI Available</p>
+            <ChevronDownIcon className='h-5 w-5' />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
