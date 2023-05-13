@@ -11,7 +11,7 @@ interface IImageGrid {
 const ImageGrid: React.FC<IImageGrid> = ({ products }) => {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-      {products.map((product) => {
+      {products?.map((product) => {
         const ratingFloat = `${product.rating}`.split(".")[1];
         return (
           <Link href={`/product_details/${product.id}`} key={product.id}>
@@ -20,7 +20,7 @@ const ImageGrid: React.FC<IImageGrid> = ({ products }) => {
               className='h-96 bg-white px-2 flex flex-col justify-between items-center overflow-hidden cursor-pointer'
             >
               <div className='relative h-56 w-72 mt-2'>
-                <Image src={product.images[0]} alt={product.title} fill />
+                <Image src={product?.images?.[0]} alt={product.title} fill />
               </div>
               <div className='my-2 w-full'>
                 <h1>{product.title}</h1>
