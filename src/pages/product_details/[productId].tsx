@@ -5,7 +5,7 @@ import ProductViewer from "../components/ProductViewer";
 import Loader from "../components/Loader";
 import StarRating from "../components/StarRatings";
 import { useAppDispatch, useAppSelector } from "@/rtk/store";
-import { addToCart } from "@/rtk/cart.slice";
+import { addToCart, resetCart } from "@/rtk/cart.slice";
 import { dollarToINDIAN } from "@/utils";
 
 interface IProductDetailsProps {}
@@ -174,7 +174,14 @@ const ProductDetails: React.FC<IProductDetailsProps> = () => {
                     >
                       Add to Cart
                     </div>
-                    <div className='bg-az_buy_now cursor-pointer rounded-lg py-2 px-4 w-fit font-light text-sm hover:bg-az_orange hover:opacity-90'>
+                    <div
+                      className='bg-az_buy_now cursor-pointer rounded-lg py-2 px-4 w-fit font-light text-sm hover:bg-az_orange hover:opacity-90'
+                      onClick={(e) => {
+                        dispatch(resetCart())
+                        handleAddToCart(e);
+                        router.push("/cart");
+                      }}
+                    >
                       Buy Now
                     </div>
                   </div>

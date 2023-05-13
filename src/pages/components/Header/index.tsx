@@ -10,7 +10,8 @@ import { MagnifyingGlassIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import { ISelectOptions } from "@/pages/_app";
 import { useAppSelector } from "@/rtk/store";
 import { cartQuantityCalculator } from "@/utils";
-import Link from 'next/link';
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface IHeaderProps {
   userName: string;
@@ -29,11 +30,18 @@ const Header: FunctionComponent<IHeaderProps> = ({
 }) => {
   const { cart } = useAppSelector((state) => state.cartProducts);
 
+  const router = useRouter();
+
   const categories = ["All", "Sunglasses", "Furniture", "Motorcycle"];
 
   const handleKeywordKeyPress = (e: React.KeyboardEvent<any>) => {
     if (e.key == "Enter") {
-      setSearchValue(e.currentTarget.value);
+      if (router.pathname !== "/") {
+        router.push("/");
+        setSearchValue(e.currentTarget?.value);
+      } else {
+        setSearchValue(e.currentTarget?.value);
+      }
     }
   };
   const searchInputReference = useRef() as RefObject<HTMLInputElement>;
@@ -42,14 +50,23 @@ const Header: FunctionComponent<IHeaderProps> = ({
     <header className='bg-az_header_dark text-white'>
       <div className='flex justify-between items-center'>
         <div className='mx-5 text-white flex'>
-          <Image
-            className='w-auto'
-            src='https://user-images.githubusercontent.com/73257543/235652850-ffd1f086-ea7f-42b4-850f-2a6f64806eda.png'
-            width={150}
-            height={100}
-            priority
-            alt='amazon logo'
-          />
+          <Link
+            href={"/"}
+            onClick={() => {
+              setSearchValue("");
+              setCurrentPage(1);
+              setSelectedOption("all");
+            }}
+          >
+            <Image
+              className='w-auto'
+              src='https://user-images.githubusercontent.com/73257543/235652850-ffd1f086-ea7f-42b4-850f-2a6f64806eda.png'
+              width={150}
+              height={100}
+              priority
+              alt='amazon logo'
+            />
+          </Link>
           <div className='flex flex-col justify-center items-center p-2'>
             <p className='text-sm ml-4'>Deliver to {userName}</p>
             <div className='flex font-bold mt-1'>
@@ -65,9 +82,16 @@ const Header: FunctionComponent<IHeaderProps> = ({
             onChange={(e) => {
               setSearchValue("");
               setCurrentPage(1);
-              setSelectedOption(
-                e.currentTarget.value.toLowerCase() as ISelectOptions
-              );
+              if (router.pathname !== "/") {
+                router.push("/");
+                setSelectedOption(
+                  e.currentTarget.value.toLowerCase() as ISelectOptions
+                );
+              } else {
+                setSelectedOption(
+                  e.currentTarget.value.toLowerCase() as ISelectOptions
+                );
+              }
             }}
           >
             {categories.map((cat) => {
@@ -93,9 +117,18 @@ const Header: FunctionComponent<IHeaderProps> = ({
             />
             <div
               className='absolute top-0 right-0 mt-2 mr-2 hover:opacity-75 hover:transform hover:scale-105 z-50 cursor-pointer'
-              onClick={() =>
-                setSearchValue(searchInputReference?.current?.value as string)
-              }
+              onClick={() => {
+                if (router.pathname !== "/") {
+                  router.push("/");
+                  setSearchValue(
+                    searchInputReference?.current?.value as string
+                  );
+                } else {
+                  setSearchValue(
+                    searchInputReference?.current?.value as string
+                  );
+                }
+              }}
             >
               <MagnifyingGlassIcon className='h-7 w7 text-black z-50' />
             </div>
@@ -122,12 +155,12 @@ const Header: FunctionComponent<IHeaderProps> = ({
             <p className='font-bold'>& Orders</p>
           </div>
           <Link href={`/cart`}>
-          <div className='flex flex-col justify-center items-center cursor-pointer'>
-            <div className='text-sm font-black text-az_orange rounded-full'>
-              {cartQuantityCalculator(cart)}
+            <div className='flex flex-col justify-center items-center cursor-pointer'>
+              <div className='text-sm font-black text-az_orange rounded-full'>
+                {cartQuantityCalculator(cart)}
+              </div>
+              <p className='font-bold'>Cart</p>
             </div>
-            <p className='font-bold'>Cart</p>
-          </div>
           </Link>
         </div>
       </div>

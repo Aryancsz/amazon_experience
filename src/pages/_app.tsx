@@ -22,9 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <div
-        className={`fixed top-0 left-0 right-0 z-50 ${
-          router.pathname !== "/" && "pointer-events-none"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50`}
       >
         <Header
           loading={loading.imageGridLoading}
