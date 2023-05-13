@@ -7,7 +7,8 @@ import { listProducts } from "@/services/amazonApi";
 import Loader from "./components/Loader";
 import Pagination from "./components/Pagination";
 import { ISelectOptions } from "./_app";
-import { receivedProducts } from '@/rtk/products.slice';
+import { receivedProducts } from "@/rtk/products.slice";
+import Head from 'next/head';
 
 const inter = PT_Sans({ subsets: ["latin"], weight: "400" });
 
@@ -45,7 +46,7 @@ export default function Home({
               : searchValue
               ? searchValue || ""
               : selectedOption || "",
-          skip: searchValue || selectedOption !== 'all' ? 0 : skipValue ,
+          skip: searchValue || selectedOption !== "all" ? 0 : skipValue,
         });
         dispatch(receivedProducts(response));
         setLoading((s) => ({ ...s, imageGridLoading: false }));
@@ -57,40 +58,45 @@ export default function Home({
     find();
   }, [selectedOption, searchValue, currentPage]);
   return (
-    <main className={`${inter.className} min-h-screen bg-gray-300`}>
-      <div className='flex flex-col items-center justify-center'>
-        <div className='relative h-[74vh] w-[84.5vw] rounded-b-3xl overflow-hidden'>
-          <Image
-            src='https://user-images.githubusercontent.com/73257543/235905021-eeb69c8e-672d-4f21-b7bd-021444cfc479.png'
-            alt='slide'
-            fill
+    <>
+      <Head>
+        <title>Amazon Experience</title>
+      </Head>
+      <main className={`${inter.className} min-h-screen bg-gray-300`}>
+        <div className='flex flex-col items-center justify-center'>
+          <div className='relative h-[74vh] w-[84.5vw] rounded-b-3xl overflow-hidden'>
+            <Image
+              src='https://user-images.githubusercontent.com/73257543/235905021-eeb69c8e-672d-4f21-b7bd-021444cfc479.png'
+              alt='slide'
+              fill
+            />
+          </div>
+          <div className='w-10/12 -mt-[22rem] z-20'>
+            {!loading.imageGridLoading ? (
+              <ImageGrid products={products} />
+            ) : (
+              <div className='h-[50vh] w-full flex items-center justify-center'>
+                <Loader size='large' />
+              </div>
+            )}
+          </div>
+          <Pagination
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            limit={pageLimit}
+            skip={skip as number}
+            total={total as number}
           />
+          <div
+            className='flex justify-center w-full text-white cursor-pointer bg-az_gray_light py-4 hover:opacity-80'
+            onClick={() => {
+              window.scrollTo({ behavior: "smooth", top: 0 });
+            }}
+          >
+            Back to top
+          </div>
         </div>
-        <div className='w-10/12 -mt-[22rem] z-20'>
-          {!loading.imageGridLoading ? (
-            <ImageGrid products={products} />
-          ) : (
-            <div className='h-[50vh] w-full flex items-center justify-center'>
-              <Loader size='large' />
-            </div>
-          )}
-        </div>
-        <Pagination
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-          limit={pageLimit}
-          skip={skip as number}
-          total={total as number}
-        />
-        <div
-          className='flex justify-center w-full text-white cursor-pointer bg-az_gray_light py-4 hover:opacity-80'
-          onClick={() => {
-            window.scrollTo({ behavior: "smooth", top: 0 });
-          }}
-        >
-          Back to top
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
