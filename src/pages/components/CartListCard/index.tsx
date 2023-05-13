@@ -27,7 +27,12 @@ const CartListCard: React.FC<ICartListCard> = ({ item }) => {
     <>
       <div className='flex space-x-7 mt-2'>
         <div className='relative h-[12rem] w-[17rem]'>
-          <Image src={item?.thumbnail} alt='india' fill />
+          <Image
+            src={item?.thumbnail}
+            alt='india'
+            fill
+            sizes='(max-width: 768px)'
+          />
         </div>
         <div className='flex w-full justify-between'>
           <div className='flex flex-col justify-evenly text-sm mr-2'>

@@ -15,7 +15,13 @@ const ProductViewer: React.FC<IProductViewer> = ({ images }) => {
             className='h-24 w-full relative border border-gray-300 cursor-pointer hover:transform hover:scale-105'
             onMouseEnter={() => setImageIndex(0)}
           >
-            <Image className='p-0.5' src={`${images?.[0]}`} alt='slide1' fill />
+            <Image
+              className='p-0.5'
+              src={`${images?.[0]}`}
+              alt='slide1'
+              fill
+              sizes='(max-width: 768px)'
+            />
           </div>
         )}
         {images?.[1] && (
@@ -23,7 +29,13 @@ const ProductViewer: React.FC<IProductViewer> = ({ images }) => {
             className='col-start-1 row-start-2 h-24 w-full relative border border-gray-300 cursor-pointer hover:transform hover:scale-105'
             onMouseEnter={() => setImageIndex(1)}
           >
-            <Image className='p-0.5' src={`${images?.[1]}`} alt='slide2' fill />
+            <Image
+              className='p-0.5'
+              src={`${images?.[1]}`}
+              alt='slide2'
+              fill
+              sizes='(max-width: 768px)'
+            />
           </div>
         )}
         {images?.[2] && (
@@ -31,7 +43,13 @@ const ProductViewer: React.FC<IProductViewer> = ({ images }) => {
             className='col-start-1 row-start-3 h-24 w-full relative border border-gray-300 cursor-pointer hover:transform hover:scale-105'
             onMouseEnter={() => setImageIndex(2)}
           >
-            <Image className='p-0.5' src={`${images?.[2]}`} alt='slide3' fill />
+            <Image
+              className='p-0.5'
+              src={`${images?.[2]}`}
+              alt='slide3'
+              fill
+              sizes='(max-width: 768px)'
+            />
           </div>
         )}
         {images?.[imageIndex] && (
@@ -41,6 +59,7 @@ const ProductViewer: React.FC<IProductViewer> = ({ images }) => {
               src={`${images?.[imageIndex]}`}
               alt='slide3'
               fill
+              sizes='(max-width: 768px)'
             />
           </div>
         )}

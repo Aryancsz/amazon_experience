@@ -69,6 +69,8 @@ export default function Home({
               src='https://user-images.githubusercontent.com/73257543/235905021-eeb69c8e-672d-4f21-b7bd-021444cfc479.png'
               alt='slide'
               fill
+              priority
+              sizes='(max-width: 768px)'
             />
           </div>
           <div className='w-10/12 -mt-[22rem] z-20'>
