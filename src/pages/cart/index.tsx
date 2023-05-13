@@ -56,7 +56,7 @@ const Cart: React.FC<ICartProps> = () => {
 
     const rzpay = new Razorpay(options);
     rzpay.open();
-  }, [Razorpay]);
+  }, [Razorpay, cartItems.cart]);
 
   return (
     <div className='w-[100vw] bg-gray-300 flex justify-center'>

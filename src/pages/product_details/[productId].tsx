@@ -57,7 +57,7 @@ const ProductDetails: React.FC<IProductDetailsProps> = () => {
       addToCart({
         ...productDetails,
         quantity,
-        thumbnail: productDetails?.images[0] as any,
+        thumbnail: productDetails?.images?.[0],
       })
     );
   };
@@ -177,7 +177,7 @@ const ProductDetails: React.FC<IProductDetailsProps> = () => {
                     <div
                       className='bg-az_buy_now cursor-pointer rounded-lg py-2 px-4 w-fit font-light text-sm hover:bg-az_orange hover:opacity-90'
                       onClick={(e) => {
-                        dispatch(resetCart())
+                        dispatch(resetCart());
                         handleAddToCart(e);
                         router.push("/cart");
                       }}
